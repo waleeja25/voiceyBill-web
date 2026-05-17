@@ -44,7 +44,7 @@
     "nuqs": "^2.8.9",
     "react": "^19.2.6",
     "react-countup": "^6.5.3",
-    "react-currency-input-field": "^3.10.0",
+    "react-currency-input-field": "^4.0.5",
     "react-day-picker": "^9.11.0",
     "react-dom": "^19.2.6",
     "react-hook-form": "^7.76.0",
