@@ -7,6 +7,13 @@ Describe what changed and why.
 - Closes #
 - Related to #
 
+## Issue template used
+
+- [ ] Bug report
+- [ ] Feature request
+- [ ] Question
+- [ ] Other
+
 ## Type of change
 
 - [ ] feat
@@ -27,6 +34,11 @@ Describe what changed and why.
 ## How to test
 
 List steps to validate this change locally.
+
+## Media
+
+- [ ] I attached screenshots or recordings for visual changes.
+- [ ] I linked the issue or discussion that motivated this change.
 
 ## Validation output
 
@@ -52,6 +64,7 @@ If yes, describe migration steps.
 ## Checklist
 
 - [ ] PR title follows Conventional Commits style.
+- [ ] I used the PR template fully and did not leave required sections blank.
 - [ ] I kept this PR focused and reviewable.
 - [ ] I added or updated tests where needed.
 - [ ] I updated documentation where needed.

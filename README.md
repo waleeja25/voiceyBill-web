@@ -13,8 +13,35 @@ React web dashboard for tracking income and expenses with voice input, AI receip
 
 ## Prerequisites
 
-- Node.js 20 or later
-- A running instance of the [backend](../backend/README.md)
+- **Node.js 20.0.0 or later** (`node --version` to check)
+- **npm 10.0.0 or later** (`npm --version` to check)
+- Git
+- A running instance of the backend (see [voiceyBill-server README](../voiceyBill-server/README.md))
+
+> If you don't meet the Node/npm version requirement, download from https://nodejs.org/ (choose the LTS version 20+)
+
+## Verify your setup
+
+Before continuing, verify your machine meets the requirements:
+
+```bash
+node --version      # should be v20.0.0 or higher
+npm --version       # should be 10.0.0 or higher
+git --version       # should be 2.x or higher
+```
+
+**If versions are too old:**
+- Download Node.js from https://nodejs.org/ (choose LTS v20+)
+- Restart your terminal and verify again
+
+**To verify the backend is running:**
+
+```bash
+curl http://localhost:8000/health
+# Should return: {"status":"healthy"}
+```
+
+If this fails, start the backend first in another terminal (see [voiceyBill-server](../voiceyBill-server/README.md)).
 
 ## Setup
 
@@ -27,12 +54,26 @@ npm ci
 
 | Variable | Description |
 |----------|-------------|
-| `VITE_API_URL` | Base URL of the backend API (e.g. `http://localhost:5000/api`) |
+| `VITE_API_URL` | Base URL of the backend API (e.g. `http://localhost:8000/api`) |
 
 ## Development
 
 ```bash
 npm run dev       # starts dev server on http://localhost:5173
+```
+
+You should see:
+```
+VITE v6.x.x  build ready in xxx ms
+
+➜  Local:   http://localhost:5173/
+```
+
+Open http://localhost:5173 in your browser. If you see the login page and can interact with it, the web app is working.
+
+Other commands:
+
+```bash
 npm run build     # production build → dist/
 npm run preview   # preview production build locally
 npm run lint      # ESLint
@@ -47,6 +88,12 @@ npm run lint      # ESLint
 - **Reports** — view generated reports and schedule recurring email delivery
 - **Analytics** — expense breakdown pie chart and trend data
 - **Settings** — account profile, appearance (light/dark/system theme), billing
+
+## Contributing
+
+Contributors should follow the repository `CONTRIBUTING.md` guide, use the issue templates for bugs, features, and questions, and complete the pull request template before review.
+
+For visual changes, include screenshots or screen recordings directly in the issue or PR so reviewers can verify the result quickly.
 
 ## Design system
 
@@ -73,3 +120,60 @@ The UI is built on a two-layer token system defined in `src/index.css`.
 | `--surface-border` | `rgba(23, 23, 23, 0.2)` | Subtle dividers |
 
 All tokens are consumed via Tailwind's `@theme inline` block, so they are available as utility classes (e.g. `bg-brand-green`, `text-app-dark`, `border-surface-border`).
+
+## Troubleshooting
+
+### Port 8000 already in use
+
+If you get "address already in use", the backend server is already running or another app is on that port.
+
+```bash
+# Find what's using port 8000
+npm run dev                    # web will be on http://localhost:5173
+```
+
+The web app connects to the backend at the URL you set in `VITE_API_URL`. Make sure the backend is running before testing API calls.
+
+### Module not found or import errors
+
+1. Clear `node_modules` and reinstall:
+   ```bash
+   rm -rf node_modules
+   npm ci
+   npm run dev
+   ```
+
+2. If using an old Node version, upgrade to Node 20+:
+   ```bash
+   node --version
+   ```
+
+### Build or lint failures
+
+1. Check TypeScript:
+   ```bash
+   npx tsc --noEmit
+   ```
+
+2. Check ESLint:
+   ```bash
+   npm run lint
+   ```
+
+3. If still stuck, check the error message in the README or open an issue with the full output.
+
+### Backend connection refused
+
+If you see "connection refused" or 503 errors:
+
+1. Verify the backend is running:
+   ```bash
+   curl http://localhost:8000/health
+   ```
+
+2. Check `VITE_API_URL` in `.env` matches your backend URL.
+
+3. If using Docker for the backend database, verify it's running:
+   ```bash
+   docker ps | grep mongo
+   ```

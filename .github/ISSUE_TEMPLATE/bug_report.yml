@@ -87,7 +87,18 @@ body:
     id: logs
     attributes:
       label: Logs, stack traces, and screenshots
-      description: Paste complete errors from browser console, network, or build output.
+      description: Paste complete errors from browser console, network, or build output. Attach screenshots or screen recordings directly in GitHub or paste links here.
+      placeholder: |
+        - Browser console output
+        - Network error details
+        - Screenshot or video link
+
+  - type: textarea
+    id: media
+    attributes:
+      label: Images or videos
+      description: If the bug is visual, include images or screen recordings.
+      placeholder: Link to a screenshot, GIF, or short recording.
 
   - type: checkboxes
     id: checks

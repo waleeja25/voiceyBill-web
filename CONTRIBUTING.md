@@ -8,6 +8,9 @@ Thanks for your interest in contributing.
 - Focus pull requests on one clear change.
 - Open an issue before starting major features.
 - Do not include secrets or production credentials in any commit.
+- Use the issue templates for every new issue. Blank issues are disabled.
+- Use the PR template for every pull request. PRs without the template completed are not considered ready for review.
+- Include screenshots, screen recordings, or GIFs for UI, interaction, or chart changes.
 
 ## Development setup
 
@@ -70,3 +73,8 @@ Keep one issue focused on one topic so it can be triaged quickly. Include a scre
 
 - Do not open public issues for security vulnerabilities.
 - Use GitHub Security Advisories for responsible disclosure.
+
+## Helpful setup reminders
+
+- The web app runs directly with Vite on your machine.
+- Set `VITE_API_URL` to the running backend when testing features end-to-end.
