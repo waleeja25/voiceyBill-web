@@ -49,9 +49,19 @@ export function AccountForm() {
     },
   });
 
+  // Check if there are any changes
+  const hasChanges =
+    form.watch("name") !== user?.name || file !== null;
+
   const onSubmit = (values: AccountFormValues) => {
-    console.log(values);
+
     if (isLoading) return;
+
+    // Prevent submission if no changes
+    if (!hasChanges) {
+      toast.info("No changes to update");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("name", values.name || "");
@@ -69,6 +79,8 @@ export function AccountForm() {
           })
         );
         toast.success("Account updated successfully");
+        setFile(null);
+        setAvatarUrl(null);
       })
       .catch((error) => {
         toast.error(error.data.message || "Failed to update account");
@@ -135,7 +147,7 @@ export function AccountForm() {
             </FormItem>
           )}
         />
-        <Button disabled={isLoading} type="submit">
+        <Button disabled={isLoading || !hasChanges} type="submit">
           {isLoading && <Loader className="h-4 w-4 animate-spin" />}
           Update account
         </Button>
