@@ -16,7 +16,7 @@ React web dashboard for tracking income and expenses with voice input, AI receip
 - **Node.js 20.0.0 or later** (`node --version` to check)
 - **npm 10.0.0 or later** (`npm --version` to check)
 - Git
-- A running instance of the backend (see [voiceyBill-server README](../voiceyBill-server/README.md))
+- A running instance of the backend (see [voiceyBill-server README](https://github.com/voiceyBill/voiceyBill-server#readme))
 
 > If you don't meet the Node/npm version requirement, download from https://nodejs.org/ (choose the LTS version 20+)
 
@@ -41,7 +41,7 @@ curl http://localhost:8000/health
 # Should return: {"status":"healthy"}
 ```
 
-If this fails, start the backend first in another terminal (see [voiceyBill-server](../voiceyBill-server/README.md)).
+If this fails, start the backend first in another terminal (see [voiceyBill-server](https://github.com/voiceyBill/voiceyBill-server#readme)).
 
 ## Setup
 
