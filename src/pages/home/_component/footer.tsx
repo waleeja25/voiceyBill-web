@@ -10,7 +10,10 @@ const Footer = () => {
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 mb-12">
           <div className="space-y-4">
-            <div className="cursor-pointer">
+            <div
+              className="cursor-pointer"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            >
               <Logo url="/" />
             </div>
             <p className="text-white/50 text-sm leading-relaxed max-w-xs">
