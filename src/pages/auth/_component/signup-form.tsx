@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/form";
 import { useRegisterMutation } from "@/features/auth/authAPI";
 import type { ErrorResponse } from "@/features/auth/authType";
-import { uppercase } from "node_modules/zod/v4/core/regexes.d.cts";
 
 const schema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),

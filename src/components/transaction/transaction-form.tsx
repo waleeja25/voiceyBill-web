@@ -447,7 +447,7 @@ const TransactionForm = (props: {
                         mode="single"
                         selected={field.value}
                         onSelect={(date) => {
-                          console.log(date);
+                          
                           field.onChange(date); // This updates the form value
                         }}
                         disabled={(date) => date < new Date("2023-01-01")}
