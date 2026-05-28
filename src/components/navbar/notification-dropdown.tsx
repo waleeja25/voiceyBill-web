@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Bell, X, Trash2, AlertCircle, AlertTriangle, Info } from "lucide-react";
 import { useTypedSelector, useAppDispatch } from "@/app/hook";
 import { Button } from "../ui/button";
@@ -14,6 +14,24 @@ export const NotificationDropdown = () => {
   const dispatch = useAppDispatch();
   const { notifications } = useTypedSelector((state) => state.notification);
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
@@ -57,7 +75,7 @@ export const NotificationDropdown = () => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative" ref={dropdownRef}>
       <Button
         variant="ghost"
         size="icon"
