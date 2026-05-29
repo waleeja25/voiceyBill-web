@@ -27,27 +27,32 @@ const Account = () => {
   const [deleteOtp, setDeleteOtp] = useState("");
   const [isSendingOtp, setIsSendingOtp] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+
   const [sendDeleteAccountOtp] = useSendDeleteAccountOtpMutation();
   const [deleteUser] = useDeleteUserMutation();
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleSendOtp = async () => {
     try {
       setIsSendingOtp(true);
+
       await sendDeleteAccountOtp().unwrap();
+
       toast.success("OTP sent to your email");
     } catch (err: unknown) {
-  const message =
-    typeof err === "object" &&
-    err !== null &&
-    "data" in err &&
-    typeof (err as any).data?.message === "string"
-      ? (err as any).data.message
-      : "Unable to send OTP";
+      const message =
+        typeof err === "object" &&
+        err !== null &&
+        "data" in err &&
+        typeof (err as { data?: { message?: string } }).data?.message ===
+          "string"
+          ? (err as { data?: { message?: string } }).data?.message
+          : "Unable to send OTP";
 
-  toast.error(message);
-}finally {
+      toast.error(message);
+    } finally {
       setIsSendingOtp(false);
     }
   };
@@ -65,21 +70,26 @@ const Account = () => {
 
     try {
       setIsDeleting(true);
+
       await deleteUser({ otp: deleteOtp.trim() }).unwrap();
+
       dispatch(logout());
+
       navigate(PUBLIC_ROUTES.HOME);
+
       toast.success("Account deleted");
     } catch (err: unknown) {
-  const message =
-    typeof err === "object" &&
-    err !== null &&
-    "data" in err &&
-    typeof (err as any).data?.message === "string"
-      ? (err as any).data.message
-      : "Failed to delete account";
+      const message =
+        typeof err === "object" &&
+        err !== null &&
+        "data" in err &&
+        typeof (err as { data?: { message?: string } }).data?.message ===
+          "string"
+          ? (err as { data?: { message?: string } }).data?.message
+          : "Failed to delete account";
 
-  toast.error(message);
-} finally {
+      toast.error(message);
+    } finally {
       setIsDeleting(false);
       setIsOpen(false);
       setConfirmText("");
@@ -91,7 +101,10 @@ const Account = () => {
     <div className="space-y-6">
       <div>
         <h3 className="text-lg font-medium">Account</h3>
-        <p className="text-sm text-muted-foreground">Update your account settings.</p>
+
+        <p className="text-sm text-muted-foreground">
+          Update your account settings.
+        </p>
       </div>
 
       <Separator />
@@ -101,10 +114,19 @@ const Account = () => {
       <Separator />
 
       <div className="pt-4">
-        <h4 className="text-sm font-medium text-destructive">Danger Zone</h4>
-        <p className="text-xs text-muted-foreground mt-1">Permanently delete your account and data.</p>
+        <h4 className="text-sm font-medium text-destructive">
+          Danger Zone
+        </h4>
+
+        <p className="mt-1 text-xs text-muted-foreground">
+          Permanently delete your account and data.
+        </p>
+
         <div className="mt-3">
-          <Button variant="destructive" onClick={() => setIsOpen(true)}>
+          <Button
+            variant="destructive"
+            onClick={() => setIsOpen(true)}
+          >
             Delete account
           </Button>
         </div>
@@ -114,8 +136,10 @@ const Account = () => {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Delete account</DialogTitle>
+
             <DialogDescription>
-              This action is permanent. Type <strong>DELETE</strong> below to confirm.
+              This action is permanent. Type <strong>DELETE</strong> below to
+              confirm.
             </DialogDescription>
           </DialogHeader>
 
@@ -127,8 +151,12 @@ const Account = () => {
               placeholder="Type DELETE to confirm"
             />
 
-            <Button variant="outline" onClick={handleSendOtp} disabled={isSendingOtp}>
-              {isSendingOtp ? 'Sending OTP...' : 'Send OTP'}
+            <Button
+              variant="outline"
+              onClick={handleSendOtp}
+              disabled={isSendingOtp}
+            >
+              {isSendingOtp ? "Sending OTP..." : "Send OTP"}
             </Button>
 
             <input
@@ -144,7 +172,12 @@ const Account = () => {
             <DialogClose>
               <Button variant="ghost">Cancel</Button>
             </DialogClose>
-            <Button variant="destructive" onClick={handleConfirmDelete} disabled={isDeleting}>
+
+            <Button
+              variant="destructive"
+              onClick={handleConfirmDelete}
+              disabled={isDeleting}
+            >
               {isDeleting ? "Deleting..." : "Confirm"}
             </Button>
           </DialogFooter>
