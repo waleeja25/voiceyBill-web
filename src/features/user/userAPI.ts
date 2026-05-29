@@ -1,5 +1,5 @@
 import { apiClient } from "@/app/api-client";
-import { UpdateUserResponse } from "./userType";
+import { ChangePasswordRequest, ChangePasswordResponse, UpdateUserResponse } from "./userType";
 
 export const userApi = apiClient.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,7 +11,14 @@ export const userApi = apiClient.injectEndpoints({
       }),
       invalidatesTags: ["analytics", "transactions"],
     }),
+    changePassword: builder.mutation<ChangePasswordResponse, ChangePasswordRequest>({
+      query: (body) => ({
+        url: "/user/change-password",
+        method: "PUT",
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useUpdateUserMutation } = userApi;
+export const { useUpdateUserMutation, useChangePasswordMutation } = userApi;
