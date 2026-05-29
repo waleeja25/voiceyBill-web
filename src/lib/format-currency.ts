@@ -19,16 +19,13 @@ export function formatCurrency(
   } = options;
 
   if (!amount || isNaN(amount)) {
-    const symbol = new Intl.NumberFormat(locale, {
-      style: "currency",
-      currency,
-      minimumFractionDigits: compact ? 0:2,
-      maximumFractionDigits: compact ? 0:2,
-    })
-      .formatToParts(0)
-      .find((p) => p.type === "currency")?.value ?? "$";
-    return compact ? `${symbol}0` : `${symbol}0.00`;
-  }
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency,
+    minimumFractionDigits: compact ? 0 : 2,
+    maximumFractionDigits: compact ? 0 : 2,
+  }).format(0);
+}
 
   const absAmount = Math.abs(amount);
   let formattedAmount: string;
