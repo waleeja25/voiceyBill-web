@@ -22,7 +22,8 @@ export function formatCurrency(
     const symbol = new Intl.NumberFormat(locale, {
       style: "currency",
       currency,
-      maximumFractionDigits: 0,
+      minimumFractionDigits: compact ? 0:2,
+      maximumFractionDigits: compact ? 0:2,
     })
       .formatToParts(0)
       .find((p) => p.type === "currency")?.value ?? "$";

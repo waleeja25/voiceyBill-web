@@ -52,7 +52,10 @@ import { useTypedSelector } from "@/app/hook";
 import { useGetSupportedCurrenciesQuery } from "@/features/currency/currencyAPI";
 
 const formSchema = z.object({
-  title: z.string().trim().min(2, { message: "Title must be at least 2 characters." }),
+  title: z
+    .string()
+    .trim()
+    .min(2, { message: "Title must be at least 2 characters." }),
   amount: z.string().refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
     message: "Amount must be a positive number.",
   }),
@@ -101,7 +104,7 @@ const TransactionForm = (props: {
 
   const { data, isLoading } = useGetSingleTransactionQuery(
     transactionId || "",
-    { skip: !transactionId }
+    { skip: !transactionId },
   );
   const editData = data?.transaction;
 
@@ -130,9 +133,10 @@ const TransactionForm = (props: {
 
   useEffect(() => {
     if (isEdit && transactionId && editData) {
-      const editAmount = editData.originalAmount != null
-        ? editData.originalAmount.toString()
-        : editData.amount.toString();
+      const editAmount =
+        editData.originalAmount != null
+          ? editData.originalAmount.toString()
+          : editData.amount.toString();
       const editCurrency = editData.originalCurrency || baseCurrency;
 
       form.reset({
@@ -155,7 +159,7 @@ const TransactionForm = (props: {
     ([_, value]) => ({
       value: value,
       label: value.replace("_", " ").toLowerCase(),
-    })
+    }),
   );
 
   const handleScanComplete = (data: AIScanReceiptData) => {
@@ -278,7 +282,7 @@ const TransactionForm = (props: {
                         shadow-sm border p-2 flex-1 justify-center
                         `,
                         field.value === _TRANSACTION_TYPE.INCOME &&
-                          "!border-primary"
+                          "!border-primary",
                       )}
                     >
                       <RadioGroupItem
@@ -297,7 +301,7 @@ const TransactionForm = (props: {
                         shadow-sm border p-2 flex-1 justify-center
                         `,
                         field.value === _TRANSACTION_TYPE.EXPENSE &&
-                          "!border-primary"
+                          "!border-primary",
                       )}
                     >
                       <RadioGroupItem
@@ -348,8 +352,16 @@ const TransactionForm = (props: {
                           placeholder="0.00"
                           prefix={
                             currencyData?.currencies?.find(
-                              (c) => c.code === form.watch("currency")
-                            )?.symbol || "$"
+                              (c) => c.code === form.watch("currency"),
+                            )?.symbol ??
+                            new Intl.NumberFormat("en-US", {
+                              style: "currency",
+                              currency: form.watch("currency") || baseCurrency,
+                              maximumFractionDigits: 0,
+                            })
+                              .formatToParts(0)
+                              .find((p) => p.type === "currency")?.value ??
+                            "$"
                           }
                         />
                       </div>
@@ -427,7 +439,7 @@ const TransactionForm = (props: {
                           variant={"outline"}
                           className={cn(
                             "w-full pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
+                            !field.value && "text-muted-foreground",
                           )}
                         >
                           {field.value ? (
@@ -447,7 +459,6 @@ const TransactionForm = (props: {
                         mode="single"
                         selected={field.value}
                         onSelect={(date) => {
-                          
                           field.onChange(date); // This updates the form value
                         }}
                         disabled={(date) => date < new Date("2023-01-01")}
@@ -515,7 +526,7 @@ const TransactionForm = (props: {
                         if (checked) {
                           form.setValue(
                             "frequency",
-                            _TRANSACTION_FREQUENCY.DAILY
+                            _TRANSACTION_FREQUENCY.DAILY,
                           );
                         } else {
                           form.setValue("frequency", null);

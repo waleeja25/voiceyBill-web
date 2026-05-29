@@ -40,7 +40,7 @@ export interface TransactionType {
   originalCurrency?: string | null;
   baseCurrencyAtTime?: string | null;
   exchangeRate?: number | null;
-  rateSource?: string | null;
+  rateSource?: "live" | "cached" | null;
   description: string;
   category: string;
   date: string;
